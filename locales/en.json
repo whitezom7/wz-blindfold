@@ -1,0 +1,27 @@
+{
+    "toggleBlindfold": "Toggling Blindfold.",
+    "SuccessfulBlindfold": "Blindfold applied successfully.",
+    "NoBlindfold": "You don't have a blindfold.",
+
+    "ActionCancelled": "Action cancelled.",
+
+    "RemoveBlindfold": "Removing Blindfold.",
+    "SuccessfulRemove": "Blindfold removed successfully.",
+    "NoBlindfoldRemove": "You don't have a blindfold to remove.",
+
+
+    "PutOnBlindfoldTarget": "Put on Blindfold",
+    "RemoveBlindfoldTarget": "Remove Blindfold",
+
+
+    "PlayerBlindfolded": "Player has been blindfolded.",
+    "PlayerBlindfoldRemoved": "Player's blindfold has been removed.",
+
+    "PlayerNotFound": "Player not found.",
+    "PlayerState": "Player is currently ",
+
+    "NoSelfBlindfold": "You aren't blindfolded!",
+
+
+    "CantRemoveInLastStand": "You cannot remove a blindfold while in last stand."
+}

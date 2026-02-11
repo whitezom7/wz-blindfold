@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="blindfold"></div>
+
+<script>
+window.addEventListener('message', (event) => {
+    const data = event.data;
+
+    if (data.action === "show") {
+        const el = document.getElementById("blindfold");
+        el.style.backgroundColor = data.color;
+        el.style.opacity = data.opacity;
+        el.style.transition = `opacity ${data.fade}ms`;
+        el.style.display = "block";
+    }
+
+    if (data.action === "hide") {
+        const el = document.getElementById("blindfold");
+        el.style.display = "none";
+    }
+});
+</script>
+</body>
+</html>
