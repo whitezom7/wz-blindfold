@@ -37,3 +37,9 @@ files {
     'html/style.css',
     'html/blindfold.png'
 }
+
+escrow_ignore {
+  '**.lua',
+  'html/**/*',
+  'locales/*.json'
+}
