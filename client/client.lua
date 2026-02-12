@@ -1,13 +1,29 @@
 lib.locale()
 
 
-
 function ApplyBlindfold(data)
+ if QBX.PlayerData.metadata.isDead then
+    lib.notify({
+        title = "Blindfold",
+        description = locale('CannotApplyDead'),
+        type = "error",
+        position = "top"
+    }) return
+end
+if QBX.PlayerData.metadata.ishandcuffed then
+    lib.notify({
+        title = "Blindfold",
+        description = locale('CantApplyHandcuffed'),
+        type = "error",
+        position = "top"
+    }) return
+end
+
     if lib.progressCircle({
             duration = Config.ApplyDuration,
             label = locale('toggleBlindfold'),
             useWhileDead = false,
-            useWhileCuffed = false,
+            allowCuffed = false,
             canCancel = true,
             disable = {
                 move = true,
@@ -44,11 +60,27 @@ function ApplyBlindfold(data)
 end
 
 function RemoveBlindfold(data)
+ if QBX.PlayerData.metadata.isDead then
+    lib.notify({
+        title = "Blindfold",
+        description = locale('CannotRemoveDead'),
+        type = "error",
+        position = "top"
+    }) return
+end
+if QBX.PlayerData.metadata.ishandcuffed then
+    lib.notify({
+        title = "Blindfold",
+        description = locale('CantRemoveHandcuffed'),
+        type = "error",
+        position = "top"
+    }) return
+end
     if lib.progressCircle({
             duration = Config.RemoveDuration,
             label = locale('RemoveBlindfold'),
             useWhileDead = false,
-            useWhileCuffed = false,
+            allowCuffed = false,
             canCancel = true,
             disable = {
                 move = true,
@@ -76,3 +108,28 @@ function RemoveBlindfold(data)
         })
     end
 end
+
+
+
+
+AddEventHandler('onResourceStop', function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then return end
+
+    local ped = PlayerPedId()
+
+    -- 1. Reset Visuals
+    ClearTimecycleModifier() 
+    TriggerScreenblurFadeOut(0) -- Ensures blur is gone instantly
+
+    -- 2. Reset Movement
+    ResetPedMovementClipset(ped, 0)
+    SetPedIsDrunk(ped, false)
+
+    -- 3. Reset Appearance
+    SetPedComponentVariation(ped, 1, 0, 0, 2) 
+
+    -- 4. Hide NUI
+    SendNUIMessage({ action = 'hide' })
+    
+    lib.print.warn("Blindfold effects cleaned up due to resource stop.")
+end)

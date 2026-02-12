@@ -55,10 +55,19 @@ end)
 
 
 RegisterNetEvent('wz-blindfold:removeOwnBlindfold', function()
-    if LocalPlayer.state.isDead then
+    if QBX.PlayerData.metadata.isDead then
         lib.notify({
             title = "Blindfold",
             description = locale('CantRemoveInLastStand'),
+            type = "error",
+            position = "top"
+        })
+        return
+    end
+    if QBX.PlayerData.metadata.ishandcuffed then
+        lib.notify({
+            title = "Blindfold",
+            description = locale('CantRemoveHandcuffed'),
             type = "error",
             position = "top"
         })

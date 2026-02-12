@@ -24,6 +24,9 @@
 
 
     "CantRemoveInLastStand": "You cannot remove a blindfold while in last stand.",
+    "CantRemoveHandcuffed": "You cannot remove a blindfold while handcuffed.",
+    "CantApplyInLastStand": "You cannot apply a blindfold while in last stand.",
+    "CantApplyHandcuffed": "You cannot apply a blindfold while handcuffed.",
 
     "AdminForceBlindfold": "Force a player to put on a blindfold",
     "AdminForceBlindFoldHelp": "Player ID to blindfold",
