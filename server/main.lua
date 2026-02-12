@@ -200,3 +200,13 @@ lib.addCommand('removeblindfold', {
         })
     end
 end)
+
+
+AddEventHandler('onResourceStop', function(resourceName) -- Clean up blindfold states when the resource stops
+    if GetCurrentResourceName() == resourceName then
+        for playerId, _ in pairs(BlindfoldStates) do
+            TriggerClientEvent('wz-blindfold:removeBlindfold', playerId)
+        end
+        BlindfoldStates = {} -- Clear all states on resource stop
+    end
+end)
