@@ -6,7 +6,15 @@ exports.ox_target:addGlobalPlayer({
         distance = Config.MaxDistanceToBlindfold,
         items = Config.BlindfoldItem,
         onSelect = function(data)
-            ApplyBlindfold(data)
+            local allowed = lib.callback.await('blindfold:getBlindfoldState', false, data.target)
+            if not allowed then
+                ApplyBlindfold(data)
+            else
+                lib.notify({
+                    description = locale('TargetAlreadyBlindfolded'),
+                    type = "error"
+                })
+            end
         end
     },
     {
@@ -14,7 +22,15 @@ exports.ox_target:addGlobalPlayer({
         icon = "fa-solid fa-eye",
         distance = Config.MaxDistanceToBlindfold,
         onSelect = function(data)
-            RemoveBlindfold(data)
+            local allowed = lib.callback.await('blindfold:getBlindfoldState', false, data.target)
+            if allowed then
+                RemoveBlindfold(data)
+            else
+                lib.notify({
+                    description = locale('TargetNotBlindfolded'),
+                    type = "error"
+                })
+            end
         end
     }
 })
