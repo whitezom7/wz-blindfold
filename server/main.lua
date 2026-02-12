@@ -4,8 +4,34 @@ local BlindfoldStates = {}                       -- Table to track blindfold sta
 local item = Config.BlindfoldItem or 'blindfold' -- Item name from config
 
 
+local function isTargetTooFar(src, targetSrc, maxDistance)
+    maxDistance = maxDistance or 2.5
+
+    local srcPed = GetPlayerPed(src)
+    local targetPed = GetPlayerPed(targetSrc)
+
+    if not DoesEntityExist(srcPed) or not DoesEntityExist(targetPed) then
+        return true
+    end
+
+    local srcCoords = GetEntityCoords(srcPed)
+    local targetCoords = GetEntityCoords(targetPed)
+
+    return #(srcCoords - targetCoords) > maxDistance
+end
+
+
+
 lib.callback.register('blindfold:applyBlindfold', function(source, targetId) -- callback to apply blindfold to a player
-    
+    if not targetId or targetId == source then
+        return false
+    end
+    if BlindfoldStates[targetId] then
+        return false -- Target is already blindfolded
+    end
+    if isTargetTooFar(source, targetId) then
+        return false -- Target is too far away, cannot apply blindfold
+    end
     local hasItem = exports.ox_inventory:Search(source, 'count', item) > 0
     if hasItem then
         exports.ox_inventory:RemoveItem(source, item, 1)
@@ -17,10 +43,19 @@ lib.callback.register('blindfold:applyBlindfold', function(source, targetId) -- 
     end
 end)
 
-lib.callback.register('blindfold:removeBlindfold',
-    function(source, targetId) -- Callback to remove blindfold from a player
+lib.callback.register('blindfold:removeBlindfold', function(source, targetId) -- Callback to remove blindfold from a player
+    if not targetId or targetId == source then
+        return false
+    end
+
+    if not BlindfoldStates[targetId] then
+        return false -- Target is not blindfolded
+    end
+    if isTargetTooFar(source, targetId) then
+        return false -- Target is too far away, cannot remove blindfold
+    end
         if BlindfoldStates[targetId] then
-            BlindfoldStates[targetId] = false
+            BlindfoldStates[targetId] = nil
             exports.ox_inventory:AddItem(source, item, 1)
             TriggerClientEvent('wz-blindfold:removeBlindfold', targetId)
             return true
@@ -29,10 +64,9 @@ lib.callback.register('blindfold:removeBlindfold',
         end
     end)
 
-lib.callback.register('blindfold:removeOwnBlindfold',
-    function(source) -- Callback for a player to remove their own blindfold
+lib.callback.register('blindfold:removeOwnBlindfold', function(source) -- Callback for a player to remove their own blindfold
         if BlindfoldStates[source] then
-            BlindfoldStates[source] = false
+            BlindfoldStates[source] = nil
             exports.ox_inventory:AddItem(source, item, 1)
             TriggerClientEvent('wz-blindfold:removeBlindfold', source)
             return true
@@ -110,7 +144,7 @@ lib.addCommand('forceunblindfold', {
             })
             return
         end
-        BlindfoldStates[targetId] = false
+        BlindfoldStates[targetId] = nil
         TriggerClientEvent('wz-blindfold:removeBlindfold', targetId)
         lib.notify(source, {
             title = "Blindfold",
