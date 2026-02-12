@@ -5,6 +5,7 @@ local item = Config.BlindfoldItem or 'blindfold' -- Item name from config
 
 
 lib.callback.register('blindfold:applyBlindfold', function(source, targetId) -- callback to apply blindfold to a player
+    
     local hasItem = exports.ox_inventory:Search(source, 'count', item) > 0
     if hasItem then
         exports.ox_inventory:RemoveItem(source, item, 1)
@@ -56,9 +57,9 @@ lib.callback.register('blindfold:getBlindfoldState',
 -- Admin commands
 
 lib.addCommand('forceblindfold', {
-    help = 'Force a player to put on a blindfold',
+    help = locale('AdminForceBlindfold'),
     params = {
-        { name = 'target', help = 'Player ID to blindfold', type = 'playerId' }
+        { name = 'target', help = locale('AdminForceBlindFoldHelp'), type = 'playerId' }
     },
     restricted = 'group.admin'
 }, function(source, args)
@@ -92,9 +93,9 @@ lib.addCommand('forceblindfold', {
 end)
 
 lib.addCommand('forceunblindfold', {
-    help = 'Force a player to remove their blindfold',
+    help = locale('AdminRemoveBlindfold'),
     params = {
-        { name = 'target', help = 'Player ID to unblindfold', type = 'playerId' }
+        { name = 'target', help = locale('AdminRemoveBlindfoldHelp'), type = 'playerId' }
     },
     restricted = 'group.admin'
 }, function(source, args)
@@ -128,9 +129,9 @@ lib.addCommand('forceunblindfold', {
 end)
 
 lib.addCommand('blindfoldstate', {
-    help = 'Check if a player is blindfolded',
+    help = locale('AdminCheckBlindfoldState'),
     params = {
-        { name = 'target', help = 'Player ID to check', type = 'playerId' }
+        { name = 'target', help = locale('AdminCheckBlindfoldStateHelp'), type = 'playerId' }
     },
     restricted = 'group.admin'
 }, function(source, args)

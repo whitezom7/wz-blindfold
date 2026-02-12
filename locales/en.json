@@ -23,5 +23,17 @@
     "NoSelfBlindfold": "You aren't blindfolded!",
 
 
-    "CantRemoveInLastStand": "You cannot remove a blindfold while in last stand."
+    "CantRemoveInLastStand": "You cannot remove a blindfold while in last stand.",
+
+    "AdminForceBlindfold": "Force a player to put on a blindfold",
+    "AdminForceBlindFoldHelp": "Player ID to blindfold",
+    "AdminRemoveBlindfold": "Force a player to remove their blindfold",
+    "AdminRemoveBlindfoldHelp": "Player ID to remove blindfold from",
+
+    "AdminCheckBlindfoldState": "Check if a player is blindfolded",
+    "AdminCheckBlindfoldStateHelp": "Player ID to check blindfold status"
+
+
+
+   
 }
