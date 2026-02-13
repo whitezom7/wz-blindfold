@@ -1,3 +1,4 @@
+lib.locale()
 SavedMask = nil
 
 -- Helper functions --
@@ -26,3 +27,21 @@ function RestoreOriginalMask(ped)
         SetPedComponentVariation(ped, 1, 0, 0, 0)
     end
 end
+
+---Displays a notification using ox_lib
+---@param title string The bold text at the top of the notification
+---@param key string The locale key or string for the description
+---@param type "success" | "error" | "info" | "warning" The style of the notification
+function Notify(title, key, type)
+    lib.notify({
+        title = title or "Blindfold",
+        description = locale(key) or key,
+        type = type,
+        position = "top"
+    })
+end
+
+
+RegisterNetEvent('wz-blindfold:Notify', function(title, key, type)
+    Notify(title, key, type)
+end)
