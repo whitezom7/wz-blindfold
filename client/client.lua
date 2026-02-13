@@ -2,83 +2,52 @@ lib.locale()
 
 
 function ApplyBlindfold(data)
- if QBX.PlayerData.metadata.isDead then
-    lib.notify({
-        title = "Blindfold",
-        description = locale('CannotApplyDead'),
-        type = "error",
-        position = "top"
-    }) return
-end
-if QBX.PlayerData.metadata.ishandcuffed then
-    lib.notify({
-        title = "Blindfold",
-        description = locale('CantApplyHandcuffed'),
-        type = "error",
-        position = "top"
-    }) return
-end
+    -- 1. Pre-checks
+    if QBX.PlayerData.metadata.isDead then
+        return Notify('Blindfold', 'cant_apply_dead', 'error')
+    end
 
-    if lib.progressCircle({
-            duration = Config.ApplyDuration,
-            label = locale('toggleBlindfold'),
-            useWhileDead = false,
-            allowCuffed = false,
-            canCancel = true,
-            disable = {
-                move = true,
-                car = true,
-                combat = true,
-            },
-        })
-    then
-        local success = lib.callback.await('blindfold:applyBlindfold', false,
-            GetPlayerServerId(NetworkGetEntityOwner(data.entity)))
+    if QBX.PlayerData.metadata.ishandcuffed then
+        return Notify('Blindfold', 'cant_apply_handcuffed', 'error')
+    end
+
+    -- 2. Progress Bar
+    local completed = lib.progressCircle({
+        duration = Config.ApplyDuration,
+        label = locale('applying_blindfold'),
+        useWhileDead = false,
+        allowCuffed = false,
+        canCancel = true,
+        disable = { move = true, car = true, combat = true },
+    })
+
+    if completed then
+        -- 3. Server Validation
+        local targetId = GetPlayerServerId(NetworkGetEntityOwner(data.entity))
+        local success = lib.callback.await('blindfold:applyBlindfold', false, targetId)
+
         if success then
-            lib.notify({
-                title = "Blindfold",
-                description = locale('SuccessfulBlindfold'),
-                type = "success",
-                position = "top"
-            })
-        else -- Should never really hit this case since the item check is done in the server callback, but just in case
-            lib.notify({
-                title = "Blindfold",
-                description = locale('NoBlindfold'),
-                type = "error",
-                position = "top"
-            })
+            Notify('Blindfold', 'player_blindfold_success', 'success')
+        else
+            Notify('Blindfold', 'no_blindfold_item', 'info')
         end
     else
-        lib.notify({
-            title = "Blindfold",
-            description = locale('ActionCancelled'),
-            type = "error",
-            position = "top"
-        })
+        -- 4. User Cancelled
+        Notify('Blindfold', 'action_cancelled', 'info')
     end
 end
 
 function RemoveBlindfold(data)
  if QBX.PlayerData.metadata.isDead then
-    lib.notify({
-        title = "Blindfold",
-        description = locale('CannotRemoveDead'),
-        type = "error",
-        position = "top"
-    }) return
+    return Notify('Blindfold', 'cant_remove_dead', 'info')
 end
+
 if QBX.PlayerData.metadata.ishandcuffed then
-    lib.notify({
-        title = "Blindfold",
-        description = locale('CantRemoveHandcuffed'),
-        type = "error",
-        position = "top"
-    }) return
+    return Notify('Blindfold', 'cant_remove_handcuffed', 'info')
 end
     if lib.progressCircle({
             duration = Config.RemoveDuration,
-            label = locale('RemoveBlindfold'),
+            label = locale('removing_blindfold'),
             useWhileDead = false,
             allowCuffed = false,
             canCancel = true,
@@ -92,22 +61,13 @@ end
         local success = lib.callback.await('blindfold:removeBlindfold', false,
             GetPlayerServerId(NetworkGetEntityOwner(data.entity)))
         if success then
-            lib.notify({
-                title = "Blindfold",
-                description = locale('SuccessfulRemove'),
-                type = "success",
-                position = "top"
-            })
+            Notify('Blindfold', 'player_blindfold_removed_success', 'success')
         end
     else
-        lib.notify({
-            title = "Blindfold",
-            description = locale('ActionCancelled'),
-            type = "error",
-            position = "top"
-        })
+        Notify('Blindfold', 'action_cancelled', 'info')
     end
 end
+
 
 
 

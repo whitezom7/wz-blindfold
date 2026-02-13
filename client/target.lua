@@ -1,7 +1,7 @@
 -- Uses Ox Target to add interaction options to players for applying/removing blindfolds. The server callbacks will check if the player has the item and update the blindfold state accordingly.
 exports.ox_target:addGlobalPlayer({
     {
-        label = locale('PutOnBlindfoldTarget'),
+        label = locale('put_on_blindfold_target'),
         icon = "fa-solid fa-eye-slash",
         distance = Config.MaxDistanceToBlindfold,
         items = Config.BlindfoldItem,
@@ -10,7 +10,7 @@ exports.ox_target:addGlobalPlayer({
             end
     },
     {
-        label = locale('RemoveBlindfoldTarget'),
+        label = locale('remove_blindfold_target'),
         icon = "fa-solid fa-eye",
         distance = Config.MaxDistanceToBlindfold,
         onSelect = function(data)

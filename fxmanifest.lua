@@ -15,11 +15,15 @@ shared_scripts {
 
 client_scripts {
     '@qbx_core/modules/playerdata.lua',
-    'client/*.lua'
+    'client/helpers.lua', -- Added 'client/' prefix
+    'client/client.lua',  -- Added 'client/' prefix
+    'client/events.lua',  -- Added 'client/' prefix
+    'client/target.lua',
+    --'client/*.lua'   -- Added 'client/' prefix
 }
 
 server_scripts {
-    'server/*.lua'
+    'server/main.lua'
 }
 
 dependency {
