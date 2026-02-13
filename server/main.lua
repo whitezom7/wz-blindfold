@@ -3,6 +3,9 @@ lib.locale()
 local BlindfoldStates = {}                       -- Table to track blindfold states of players on server side
 local item = Config.BlindfoldItem or 'blindfold' -- Item name from config
 
+function ServerNotify(target, title, key, type)
+    TriggerClientEvent('wz-blindfold:Notify', target, title, key, type)
+end
 
 local function isTargetTooFar(src, targetSrc, maxDistance)
     maxDistance = maxDistance or 2.5
@@ -91,113 +94,69 @@ lib.callback.register('blindfold:getBlindfoldState',
 -- Admin commands
 
 lib.addCommand('forceblindfold', {
-    help = locale('AdminForceBlindfold'),
+    help = locale('admin_force_blindfold'),
     params = {
-        { name = 'target', help = locale('AdminForceBlindFoldHelp'), type = 'playerId' }
+        { name = 'target', help = locale('admin_force_blindfold_help'), type = 'playerId' }
     },
     restricted = 'group.admin'
 }, function(source, args)
     local targetId = args.target
     if targetId then
         if BlindfoldStates[targetId] then
-            lib.notify(source, {
-                title = "Blindfold",
-                description = locale('PlayerAlreadyBlindfolded'),
-                type = "error",
-                position = "top"
-            })
-            return
+            return ServerNotify(source, 'Admin', 'player_already_blindfolded', 'info')
         end
         BlindfoldStates[targetId] = true
         TriggerClientEvent('wz-blindfold:applyBlindfold', targetId)
-        lib.notify(source, {
-            title = "Blindfold",
-            description = locale('PlayerBlindfolded'),
-            type = "success",
-            position = "top"
-        })
+        ServerNotify(source, 'Admin', 'player_blindfold_success', 'success')
     else
-        lib.notify(source, {
-            title = "Blindfold",
-            description = locale('PlayerNotFound'),
-            type = "error",
-            position = "top"
-        })
+        ServerNotify(source, 'Admin', 'player_not_found', 'info')
     end
 end)
 
 lib.addCommand('forceunblindfold', {
-    help = locale('AdminRemoveBlindfold'),
+    help = locale('admin_remove_blindfold'),
     params = {
-        { name = 'target', help = locale('AdminRemoveBlindfoldHelp'), type = 'playerId' }
+        { name = 'target', help = locale('admin_remove_blindfold_help'), type = 'playerId' }
     },
     restricted = 'group.admin'
 }, function(source, args)
     local targetId = args.target
     if targetId then
         if not BlindfoldStates[targetId] then
-            lib.notify(source, {
-                title = "Blindfold",
-                description = locale('PlayerNotBlindfolded'),
-                type = "error",
-                position = "top"
-            })
+            ServerNotify(source, 'Admin', 'player_not_blindfolded', 'info')
             return
         end
         BlindfoldStates[targetId] = nil
         TriggerClientEvent('wz-blindfold:removeBlindfold', targetId)
-        lib.notify(source, {
-            title = "Blindfold",
-            description = locale('PlayerBlindfoldRemoved'),
-            type = "success",
-            position = "top"
-        })
+        ServerNotify(source, 'Admin', 'player_blindfold_removed_success', 'success')
     else
-        lib.notify(source, {
-            title = "Blindfold",
-            description = locale('PlayerNotFound'),
-            type = "error",
-            position = "top"
-        })
+        ServerNotify(source, 'Admin', 'player_not_found', 'info')
     end
 end)
 
 lib.addCommand('blindfoldstate', {
-    help = locale('AdminCheckBlindfoldState'),
+    help = locale('admin_check_blindfold_state'),
     params = {
-        { name = 'target', help = locale('AdminCheckBlindfoldStateHelp'), type = 'playerId' }
+        { name = 'target', help = locale('admin_check_blindfold_state_help'), type = 'playerId' }
     },
     restricted = 'group.admin'
 }, function(source, args)
     local targetId = args.target
     if targetId then
-        local state = BlindfoldStates[targetId] and "blindfolded" or "not blindfolded"
-        lib.notify(source, {
-            title = "Blindfold State",
-            description = locale('PlayerState', state),
-            type = "info",
-            position = "top"
-        })
+        local stateKey = BlindfoldStates[targetId] and "state_blindfolded" or "state_not_blindfolded"
+        ServerNotify(source, 'Admin', stateKey, 'info')
     else
-        lib.notify(source, {
-            title = "Blindfold State",
-            description = locale('PlayerNotFound'),
-            type = "error",
-            position = "top"
-        })
+        ServerNotify(source, 'Admin', 'player_not_found', 'info')
     end
 end)
 
 lib.addCommand('removeblindfold', {
-    help = 'Remove your own blindfold',
+    help = locale('remove_blindfold_command'),
 }, function(source)
     if BlindfoldStates[source] then
         TriggerClientEvent('wz-blindfold:removeOwnBlindfold', source)
     else
-        lib.notify(source, {
-            description = locale('NoSelfBlindfold'),
-            type = "error"
-        })
+        ServerNotify(source, 'Blindfold', 'self_is_not_blindfolded', 'info')
     end
 end)
 
@@ -210,3 +169,5 @@ AddEventHandler('onResourceStop', function(resourceName) -- Clean up blindfold s
         BlindfoldStates = {} -- Clear all states on resource stop
     end
 end)
+
+

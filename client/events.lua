@@ -56,26 +56,14 @@ end)
 
 RegisterNetEvent('wz-blindfold:removeOwnBlindfold', function()
     if QBX.PlayerData.metadata.isDead then
-        lib.notify({
-            title = "Blindfold",
-            description = locale('CantRemoveInLastStand'),
-            type = "error",
-            position = "top"
-        })
-        return
+        return Notify('Blindfold', 'cant_remove_dead', 'info')
     end
     if QBX.PlayerData.metadata.ishandcuffed then
-        lib.notify({
-            title = "Blindfold",
-            description = locale('CantRemoveHandcuffed'),
-            type = "error",
-            position = "top"
-        })
-        return
+        return Notify('Blindfold', 'cant_remove_handcuffed', 'info')
     end
     local success = lib.progressCircle({
         duration = 2000,
-        label = locale('RemoveBlindfold'),
+        label = locale('removing_blindfold'),
         useWhileDead = false,
         allowCuffed = false,
         allowFalling = false,
@@ -89,11 +77,6 @@ RegisterNetEvent('wz-blindfold:removeOwnBlindfold', function()
     if success then
         lib.callback.await('blindfold:removeOwnBlindfold', false)
     else
-        lib.notify({
-            title = "Blindfold",
-            description = locale('ActionCancelled'),
-            type = "error",
-            position = "top"
-        })
-    end
+            Notify('Blindfold', 'action_cancelled', 'info')
+        end
 end)
