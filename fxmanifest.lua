@@ -5,7 +5,7 @@ lua54 'yes'
 name "wz-blindfold"
 description "A script that allows players to blindfold other players"
 author "Whitezom"
-version "0.1.0"
+version "0.1.1"
 
 shared_scripts {
     '@ox_lib/init.lua',
@@ -15,11 +15,10 @@ shared_scripts {
 
 client_scripts {
     '@qbx_core/modules/playerdata.lua',
-    'client/helpers.lua', -- Added 'client/' prefix
-    'client/client.lua',  -- Added 'client/' prefix
-    'client/events.lua',  -- Added 'client/' prefix
+    'client/helpers.lua',
+    'client/client.lua',
+    'client/events.lua',
     'client/target.lua',
-    --'client/*.lua'   -- Added 'client/' prefix
 }
 
 server_scripts {

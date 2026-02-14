@@ -78,3 +78,10 @@ Config.BlindfoldTextureIndex = 0              -- Prop texture ID```
 },
 ```
 
+
+### Changes to 1.1
+- Added the option for server owners to only let players blindfold players who have their hands up
+- Fixed certain locales that were not working before
+- Fixed state checks to stop players from adding blindfold multiple times
+
+
