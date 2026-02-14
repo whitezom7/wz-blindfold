@@ -3,7 +3,9 @@ Config = {}
 Config.MaxDistanceToBlindfold = 2.5           -- Max distance to apply/remove blindfold
 Config.blindfoldColor = "#000000"             -- Hex color for blindfold overlay
 Config.blindfoldOpacity = 0.85                -- 0.0 to 1.0
-Config.fadeDuration = 1000                    -- in milliseconds
+Config.fadeDuration = 1000 -- in milliseconds
+
+Config.RequireHandsUp = true -- Require players to have their hands up before they can be blindfolded
 
 Config.ApplyDuration = 3000                   -- Time to apply blindfold (ms)
 Config.RemoveDuration = 2000                  -- Time to remove blindfold (ms)

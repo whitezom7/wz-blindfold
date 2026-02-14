@@ -11,6 +11,14 @@ function ApplyBlindfold(data)
         return Notify('Blindfold', 'cant_apply_handcuffed', 'error')
     end
 
+    if Config.RequireHandsUp then
+        if not (IsEntityPlayingAnim(data.entity, 'missminuteman_1ig_2', 'handsup_base', 3)
+            or IsEntityPlayingAnim(data.entity, 'mp_arresting', 'idle', 3))
+        then 
+            return Notify('Blindfold', 'hands_up_required', 'info')
+        end
+    end
+
     -- 2. Progress Bar
     local completed = lib.progressCircle({
         duration = Config.ApplyDuration,

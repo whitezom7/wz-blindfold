@@ -23,6 +23,8 @@
 
     "self_is_not_blindfolded": "You aren't blindfolded!",
 
+    "hands_up_required": "You cannot apply a blindfold to a player who doesn't have their hands up.",
+
 
     "cant_remove_dead": "You cannot remove a blindfold while dead or in last stand.",
     "cant_remove_handcuffed": "You cannot remove a blindfold while handcuffed.",
