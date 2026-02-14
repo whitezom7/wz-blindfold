@@ -2,6 +2,7 @@ lib.locale()
 
 
 function ApplyBlindfold(data)
+    local targetId = GetPlayerServerId(NetworkGetEntityOwner(data.entity))
     -- 1. Pre-checks
     if QBX.PlayerData.metadata.isDead then
         return Notify('Blindfold', 'cant_apply_dead', 'error')
@@ -9,6 +10,12 @@ function ApplyBlindfold(data)
 
     if QBX.PlayerData.metadata.ishandcuffed then
         return Notify('Blindfold', 'cant_apply_handcuffed', 'error')
+    end
+    
+    --check if the target is already blindfolded to prevent stacking effects
+    local isTargetBlindfolded = lib.callback.await('blindfold:getBlindfoldState', false, targetId)
+    if isTargetBlindfolded then
+        return Notify('Blindfold', 'player_already_blindfolded', 'info')
     end
 
     if Config.RequireHandsUp then
@@ -46,9 +53,17 @@ function ApplyBlindfold(data)
 end
 
 function RemoveBlindfold(data)
+
+local targetId = GetPlayerServerId(NetworkGetEntityOwner(data.entity))
+
  if QBX.PlayerData.metadata.isDead then
     return Notify('Blindfold', 'cant_remove_dead', 'info')
 end
+
+local isTargetBlindfolded = lib.callback.await('blindfold:getBlindfoldState', false, targetId)
+    if not isTargetBlindfolded then
+        return Notify('Blindfold', 'player_not_blindfolded', 'info')
+    end
 
 if QBX.PlayerData.metadata.ishandcuffed then
     return Notify('Blindfold', 'cant_remove_handcuffed', 'info')
