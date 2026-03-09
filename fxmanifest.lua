@@ -5,7 +5,7 @@ lua54 'yes'
 name "wz-blindfold"
 description "A script that allows players to blindfold other players"
 author "Whitezom"
-version "0.1.1"
+version "1.1.0"
 
 shared_scripts {
     '@ox_lib/init.lua',
