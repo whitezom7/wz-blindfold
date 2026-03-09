@@ -25,8 +25,9 @@
 **Installation**
 1. Ensure all dependencies are installed and started beforehand.
 2. Add the blindfold item to your ``ox_inventory/data/items.lua``.
-3. Drop ``wz-blindfold`` into your resources folder.
-4. Add ensure ``wz-blindfold`` to your ``server.cfg``.
+3. Add the blindfold.png photo to your ``ox_inventory/web/images``
+4. Drop ``wz-blindfold`` into your resources folder.
+5. Add ensure ``wz-blindfold`` to your ``server.cfg``.
 
 
 ### Usage Examples
@@ -84,4 +85,10 @@ Config.BlindfoldTextureIndex = 0              -- Prop texture ID```
 - Fixed certain locales that were not working before
 - Fixed state checks to stop players from adding blindfold multiple times
 
+---
+## ☕ Support My Work
+If you find this script useful and would like to support my development journey, feel free to buy me a coffee!
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/whitezom)
+
+---
